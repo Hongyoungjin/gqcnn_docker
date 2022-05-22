@@ -94,4 +94,4 @@ RUN mkdir -p ~/picking/src && \
 #     cd .. && source devel/setup.bash 
 
 ### Install openssh 
-RUN apt-get update && apt-get install -y vim nano net-tools openssh-sever
+RUN apt-get update && apt-get install -y vim nano net-tools openssh-server

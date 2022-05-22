@@ -92,3 +92,6 @@ RUN mkdir -p ~/picking/src && \
 # RUN source /opt/ros/melodic/setup.bash && \
 #     cd ~/picking/ && catkin_make && \
 #     cd .. && source devel/setup.bash 
+
+### Install openssh 
+RUN apt-get update && apt-get install -y vim nano net-tools openssh-sever

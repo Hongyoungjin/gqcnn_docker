@@ -71,6 +71,10 @@ RUN  pip install tensorflow-gpu==1.15.0 keras==2.3.1 matplotlib pandas scipy h5p
 # Expose Tensorboard
 EXPOSE 6006
 
+# Setup Tensorflow
+RUN echo "export PATH=/usr/local/cuda/bin${PATH:+:${PATH}}" >> ~/.bashrc
+RUN echo 'export LD_LIBRARY_PATH="/usr/local/cuda/lib64:/usr/local/cuda-10.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"' >> ~/.bashrc
+
 ### GQ-CNN Installation
 
 RUN apt-get update && \ 
@@ -79,15 +83,17 @@ RUN apt-get update && \
 RUN mkdir -p ~/picking/src && \
     cd ~/picking/src && \
     git clone https://github.com/ssw0536/gqcnn.git  &&\
-    git clone https://github.com/BerkeleyAutomation/perception.git && \
-    pip install opencv-python==4.2.0.32 Autolab-core==0.0.14 && \
-    cd ~/picking/src/perception && pip install -e .  && \
+    cd gqcnn &&\
+    git checkout f8e654246c9d05794ecfc6d646f2c74da7023f06 &&\
+    pip install opencv-python==4.2.0.32 autolab-core==0.0.14 && \
+    pip install autolab-perception==0.0.8 && \
     pip install imageio==2.6.1 && \
     pip install pyglet==1.4.10 && \
     pip install visualization==0.1.1 && \
     pip install psutil==5.4.2 && \
     pip install gputil==1.4.0 && \
     pip install scikit-video==1.1.11 && \
+    pip install . && \
     ~/picking/src/gqcnn/scripts/downloads/models/download_models.sh 
 # RUN source /opt/ros/melodic/setup.bash && \
 #     cd ~/picking/ && catkin_make && \

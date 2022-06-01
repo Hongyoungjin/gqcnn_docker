@@ -1,8 +1,5 @@
 # This Dockerfile is used to build an ROS + OpenGL + Gazebo + Tensorflow image based on Ubuntu 18.04
-FROM nvidia/cudagl:10.0-devel-ubuntu18.04
-
-ENV TZ=Asia/Seoul
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+FROM tensorflow/tensorflow:1.15.5-gpu
 
 RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub
 
@@ -61,12 +58,7 @@ RUN echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 USER root
 RUN apt-get install -y wget python-pip python-dev libgtk2.0-0 unzip libblas-dev liblapack-dev libhdf5-dev && \
     curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py && \
-    python get-pip.py
-
-# prepare default python 2.7 environment
-USER root
-#pip install --ignore-installed --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.11.0-cp27-none-linux_x86_64.whl && \
-RUN  pip install tensorflow-gpu==1.15.0 keras==2.3.1 matplotlib pandas scipy h5py testresources scikit-learn
+    python2 get-pip.py
 
 # Expose Tensorboard
 EXPOSE 6006
